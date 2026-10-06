@@ -19,8 +19,9 @@ export const SITE = {
   // Working hours, e.g. 'Ежедневно, 10:00–20:00'. Leave empty ('') to hide.
   hours: 'Ежедневно, 9:00–20:00',
 
-  // Leave empty ('') to hide the link.
-  instagram: '',
+  // Social links. Leave empty ('') to hide.
+  instagram: 'https://www.instagram.com/astana_rent_with_baga_',
+  tiktok: 'https://www.tiktok.com/@astana_rent_with_baga_',
 
   // Round logo in the public/ folder.
   logo: 'logo.png',
