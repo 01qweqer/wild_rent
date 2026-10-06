@@ -79,7 +79,7 @@ Each item page also shows "Входит в наборы" with links to the sets 
 |---|---|
 | Change a price | Edit `price:` in the item's `item.yaml` |
 | Mark as rented out / back | `available: false` / `available: true` |
-| Add an item | Copy an existing item folder, rename it, replace the photos, edit `item.yaml` |
+| Add an item | Put its photos in `photos-inbox/<new-item-id>/`, run `npm run photos:import`, fill in the generated `item.yaml` |
 | Remove an item | Delete its folder (and remove it from any set's `includes`) |
 | Add or rename a category | Edit `src/content/categories.yaml` |
 | Change contacts | Edit `src/site.config.ts` |
@@ -92,7 +92,8 @@ Phone photos are 3–8 MB each. Committed as-is, 100 items with a few photos eac
 
 To prevent that, the build **fails if any photo is larger than 1 MB**.
 
-- **On a computer:** drop the photos into the item folder, then run `npm run photos`. This resizes them to 1600 px, fixes rotation and removes GPS location data. Then commit.
+- **On a computer (recommended):** put the originals in `photos-inbox/<item-id>/` and run `npm run photos:import`. The script shrinks them to 1600 px, fixes rotation, removes GPS data, adds them to `item.yaml` and empties the inbox. Git ignores the inbox, so the originals are never committed. See [`photos-inbox/README.md`](photos-inbox/README.md).
+- **Photos already inside an item folder:** `npm run photos` shrinks any that are too big.
 - **On github.com:** shrink the photos before uploading (any image resizer, max 1600 px, JPEG).
 
 The site itself also produces small WebP versions for each screen size, so visitors on mobile data load only what they need.
@@ -112,7 +113,8 @@ Requires Node.js 22.12+.
 ```bash
 npm install
 npm run dev        # http://localhost:4321/wild_rent/ with live reload
-npm run photos     # shrink new photos
+npm run photos:import  # move photos from photos-inbox/ into items
+npm run photos         # shrink oversized photos already in item folders
 npm run build      # production build into dist/
 ```
 

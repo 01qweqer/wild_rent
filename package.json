@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "photos": "node scripts/optimize-photos.mjs",
-    "check:photos": "node scripts/check-photos.mjs"
+    "check:photos": "node scripts/check-photos.mjs",
+    "photos:import": "node scripts/import-photos.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
