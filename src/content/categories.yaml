@@ -6,24 +6,33 @@
 - id: nabory
   name: Готовые наборы
   order: 1
-  description: Всё необходимое для похода или рыбалки одним комплектом — выгоднее, чем по отдельности.
+  description: Всё необходимое для отдыха одним комплектом — выгоднее, чем брать по отдельности.
 
 - id: palatki
-  name: Палатки
+  name: Палатки, шатры и юрты
   order: 2
 
-- id: spalniki
-  name: Спальники и коврики
+- id: zimnyaya-rybalka
+  name: Зимняя рыбалка
   order: 3
+  description: Зимние палатки, ледобуры, жерлицы и сани-волокуши.
 
-- id: rybalka
-  name: Рыбалка
+- id: voda-i-rybalka
+  name: Лодки, сапы и рыбалка
   order: 4
 
 - id: mebel
-  name: Туристическая мебель
+  name: Мебель и кемпинг
   order: 5
 
 - id: kuhnya
-  name: Кухня и газ
+  name: Кухня и готовка
   order: 6
+
+- id: son
+  name: Сон и комфорт
+  order: 7
+
+- id: muzyka
+  name: Музыка и развлечения
+  order: 8

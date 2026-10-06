@@ -2,9 +2,9 @@
 
 export const SITE = {
   name: 'Wild Rent',
-  tagline: 'Прокат туристического и рыболовного снаряжения',
+  tagline: 'Прокат снаряжения для отдыха, туризма и рыбалки',
   description:
-    'Аренда палаток, спальников, туристической мебели и рыболовного снаряжения. Смотрите фото, выбирайте и бронируйте через WhatsApp.',
+    'Прокат в Астане: палатки, шатры и надувные юрты, лодки и сапы, зимние палатки и ледобуры, мебель, казаны и самовары. Цены за сутки, бронь через WhatsApp.',
 
   // WhatsApp number in international format, digits only (no "+", spaces or dashes).
   whatsapp: '77007577315',
@@ -13,16 +13,17 @@ export const SITE = {
   phone: '+7 700 757 73 15',
 
   city: 'Астана',
-  address: 'Адрес уточняйте в WhatsApp',
+  address: 'ул. Бурабай, 27А',
+  // Link opened when the address is tapped. Leave empty ('') to show the address as plain text.
+  mapUrl: 'https://2gis.kz/astana/search/%D0%91%D1%83%D1%80%D0%B0%D0%B1%D0%B0%D0%B9%2027%D0%90',
   // Working hours, e.g. 'Ежедневно, 10:00–20:00'. Leave empty ('') to hide.
   hours: 'Ежедневно, 9:00–20:00',
 
   // Leave empty ('') to hide the link.
   instagram: '',
 
-  // Logo file in the public/ folder. Replace public/logo.svg with the real logo
-  // (or put logo.png there and change this to 'logo.png').
-  logo: 'logo.svg',
+  // Round logo in the public/ folder.
+  logo: 'logo.png',
 
   currency: '₸',
   priceUnit: 'сутки',

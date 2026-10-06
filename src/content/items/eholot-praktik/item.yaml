@@ -1,0 +1,8 @@
+name: "Эхолот «Практик» 6М / 8"
+category: voda-i-rybalka
+price: 4500
+priceTo: 6500
+order: 4
+photos:
+  - ./1.jpg
+description: "Цена зависит от модели."

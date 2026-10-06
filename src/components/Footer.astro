@@ -9,14 +9,18 @@ const year = new Date().getFullYear();
 <footer class="footer" id="contacts">
   <div class="container footer-grid">
     <div>
-      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="160" height="38" />
+      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="88" height="88" loading="lazy" />
       <p class="muted">{SITE.tagline}</p>
     </div>
     <div>
       <h3>Контакты</h3>
       <ul class="list">
         <li><a href={`tel:${SITE.phone.replace(/[^\d+]/g, '')}`}>{SITE.phone}</a></li>
-        <li>{SITE.city}. {SITE.address}</li>
+        <li>
+          {SITE.mapUrl
+            ? <a href={SITE.mapUrl} target="_blank" rel="noopener">г. {SITE.city}, {SITE.address}</a>
+            : <>г. {SITE.city}, {SITE.address}</>}
+        </li>
         {SITE.hours && <li>{SITE.hours}</li>}
         {SITE.instagram && <li><a href={SITE.instagram} target="_blank" rel="noopener">Instagram</a></li>}
       </ul>
@@ -28,6 +32,7 @@ const year = new Date().getFullYear();
       <h3>Каталог</h3>
       <ul class="list">
         {categories.map((c) => <li><a href={url(`catalog/${c.id}/`)}>{c.data.name}</a></li>)}
+        <li><a href={url('prices/')}><strong>Все цены</strong></a></li>
       </ul>
     </div>
   </div>
@@ -58,8 +63,8 @@ const year = new Date().getFullYear();
   }
 
   .footer-logo {
-    height: 36px;
-    width: auto;
+    width: 88px;
+    height: 88px;
     margin-bottom: 12px;
   }
 

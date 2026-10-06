@@ -14,24 +14,26 @@ const featured = items.filter((i) => i.data.featured).slice(0, 8);
 const categoryCards = categories
   .map((c) => {
     const inCategory = items.filter((i) => i.data.category.id === c.id);
-    return { category: c, count: inCategory.length, photo: inCategory[0]?.data.photos[0] };
+    const photo = inCategory.find((i) => i.data.photos.length > 0)?.data.photos[0];
+    return { category: c, count: inCategory.length, photo };
   })
   .filter((c) => c.count > 0);
 
 const steps = [
   { title: 'Выберите снаряжение', text: 'Посмотрите фото и характеристики в каталоге.' },
   { title: 'Напишите в WhatsApp', text: 'Нажмите «Арендовать» — сообщение с названием вещи заполнится само. Укажите даты.' },
-  { title: 'Заберите и отдыхайте', text: 'Договоримся о залоге, самовывозе или доставке прямо в переписке.' },
+  { title: 'Заберите и отдыхайте', text: `Самовывоз: ${SITE.address}. Детали обсудим в переписке.` },
 ];
 ---
 <Base>
   <section class="hero">
     <div class="container hero-inner">
-      <p class="hero-kicker">{SITE.city}</p>
-      <h1>Прокат снаряжения для&nbsp;походов и&nbsp;рыбалки</h1>
-      <p class="hero-text">Палатки, спальники, мебель, рыболовные снасти и готовые наборы. Не покупайте — берите в аренду посуточно.</p>
+      <p class="hero-kicker">{SITE.city} · {SITE.address}</p>
+      <h1>Прокат снаряжения для&nbsp;отдыха, туризма и&nbsp;рыбалки</h1>
+      <p class="hero-text">Палатки, шатры и надувные юрты, лодки и сапы, всё для зимней рыбалки, мебель, казаны и самовары. Не покупайте — берите в аренду посуточно.</p>
       <div class="hero-actions">
         <a class="btn btn-light" href={url('catalog/')}>Смотреть каталог</a>
+        <a class="btn btn-ghost" href={url('prices/')}>Все цены</a>
         <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
           <WhatsAppIcon /> Написать в WhatsApp
         </a>
@@ -137,6 +139,15 @@ const steps = [
 
   .btn-light:hover {
     background: var(--brand-soft);
+  }
+
+  .btn-ghost {
+    color: #fff;
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / 55%);
+  }
+
+  .btn-ghost:hover {
+    background: rgb(255 255 255 / 12%);
   }
 
   @media (max-width: 479px) {

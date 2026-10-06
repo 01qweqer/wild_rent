@@ -1,0 +1,6 @@
+name: "Ручной ледобур"
+category: zimnyaya-rybalka
+price: 2500
+order: 6
+photos:
+  - ./1.jpg

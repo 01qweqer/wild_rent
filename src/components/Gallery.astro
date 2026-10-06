@@ -1,13 +1,15 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import noPhoto from '../assets/no-photo.jpg';
 
 interface Props {
   photos: ImageMetadata[];
   alt: string;
 }
 
-const { photos, alt } = Astro.props;
+const { alt } = Astro.props;
+const photos = Astro.props.photos.length ? Astro.props.photos : [noPhoto];
 // Large version opened on tap (lets people zoom in on phones).
 const large = await Promise.all(photos.map((p) => getImage({ src: p, width: Math.min(p.width, 1600) })));
 ---

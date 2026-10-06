@@ -25,17 +25,24 @@ const items = defineCollection({
     z.object({
       name: z.string(),
       category: reference('categories'),
-      // Price per day.
+      // Price per day (or per `unit`, see below).
       price: z.number().int().positive(),
+      // Upper price for a range, e.g. price: 1000 + priceTo: 2000 → "1 000–2 000 ₸".
+      priceTo: z.number().int().positive().optional(),
+      // What the price is for. Default: сутки (per day). E.g. "мешок", "12 шт.".
+      unit: z.string().optional(),
       // Optional deposit shown on the item page.
       deposit: z.number().int().positive().optional(),
       // false = "Сейчас в аренде" badge is shown.
       available: z.boolean().default(true),
       // true = shown on the home page.
       featured: z.boolean().default(false),
+      // true = "Новинка" badge.
+      isNew: z.boolean().default(false),
       // Lower numbers are shown first inside a category.
       order: z.number().default(100),
-      photos: z.array(image()).min(1, 'Добавьте хотя бы одно фото'),
+      // The first photo is the cover. Without photos a "no photo" placeholder is shown.
+      photos: z.array(image()).default([]),
       description: z.string().optional(),
       // Characteristics: "Название: значение" pairs, shown in the given order.
       specs: z.record(z.string(), z.union([z.string(), z.number()])).default({}),

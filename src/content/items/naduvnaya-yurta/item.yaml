@@ -1,0 +1,11 @@
+name: "Надувная юрта до 8 человек"
+category: palatki
+price: 15000
+featured: true
+isNew: true
+order: 1
+photos:
+  - ./1.jpg
+  - ./2.jpg
+specs:
+  "Вместимость": "до 8 человек"

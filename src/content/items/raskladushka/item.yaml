@@ -1,0 +1,7 @@
+name: "Раскладушка"
+category: mebel
+price: 2000
+order: 5
+photos:
+  - ./1.jpg
+  - ./2.jpg

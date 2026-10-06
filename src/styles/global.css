@@ -244,6 +244,11 @@ p {
   color: var(--warn-ink);
 }
 
+.badge-new {
+  background: #e9f7c4;
+  color: #3d5a00;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

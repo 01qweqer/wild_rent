@@ -1,9 +1,0 @@
-# SAMPLE ITEM — replace with a real one or delete this folder.
-name: Складное кресло с подлокотниками
-category: mebel
-price: 1000
-photos:
-  - ./1.jpg
-specs:
-  Нагрузка: до 120 кг
-  Вес: 3,2 кг

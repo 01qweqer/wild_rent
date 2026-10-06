@@ -1,9 +1,0 @@
-# SAMPLE ITEM — replace with a real one or delete this folder.
-name: Самонадувающийся коврик
-category: spalniki
-price: 1000
-photos:
-  - ./1.jpg
-specs:
-  Размер: 190 × 60 см
-  Толщина: 5 см

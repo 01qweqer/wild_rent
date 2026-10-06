@@ -7,7 +7,7 @@ import Gallery from '../../components/Gallery.astro';
 import ItemCard from '../../components/ItemCard.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
 import { SITE } from '../../site.config';
-import { formatPrice, getItems, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
+import { formatPrice, getItems, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
 
 export const getStaticPaths = (async () => {
   const items = await getItems();
@@ -20,7 +20,9 @@ interface Props {
 }
 
 const { item, all } = Astro.props;
-const { name, price, deposit, available, photos, description, specs, includesText } = item.data;
+const { name, deposit, available, isNew, photos, description, specs, includesText } = item.data;
+const price = itemPrice(item);
+const unit = itemUnit(item);
 const category = await getEntry(item.data.category);
 const included = await getEntries(item.data.includes);
 // Sets that contain this item.
@@ -32,10 +34,10 @@ const related = all
 const specEntries = Object.entries(specs);
 const waHref = whatsappLink(itemWhatsappMessage(item));
 const waLabel = available ? 'Арендовать в WhatsApp' : 'Узнать, когда освободится';
-const ogImage = await getImage({ src: photos[0], width: 1200, format: 'jpg' });
-const metaDescription = `${name} в аренду — ${formatPrice(price)} / ${SITE.priceUnit}. ${description ?? ''}`.trim();
+const ogImage = photos[0] ? await getImage({ src: photos[0], width: 1200, format: 'jpg' }) : undefined;
+const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price} / ${unit}. ${description ?? ''}`.trim();
 ---
-<Base title={name} description={metaDescription} image={ogImage.src} hideFab>
+<Base title={name} description={metaDescription} image={ogImage?.src} hideFab>
   <div class="container section">
     <nav class="crumbs" aria-label="Навигация">
       <a href={url('catalog/')}>Каталог</a>
@@ -51,9 +53,10 @@ const metaDescription = `${name} в аренду — ${formatPrice(price)} / ${S
       <div class="info">
         <h1>{name}</h1>
         {!available && <p><span class="badge">Сейчас в аренде</span></p>}
+        {available && isNew && <p><span class="badge badge-new">Новинка</span></p>}
 
         <div class="price-box">
-          <p class="price"><strong>{formatPrice(price)}</strong> <span class="muted">/ {SITE.priceUnit}</span></p>
+          <p class="price"><strong>{price}</strong> <span class="muted">/&nbsp;{unit}</span></p>
           {deposit && <p class="muted deposit">Залог: {formatPrice(deposit)}</p>}
           <a class="btn btn-wa btn-block" href={waHref} target="_blank" rel="noopener">
             <WhatsAppIcon /> {waLabel}
@@ -113,8 +116,8 @@ const metaDescription = `${name} в аренду — ${formatPrice(price)} / ${S
   <!-- Sticky WhatsApp bar on phones -->
   <div class="sticky-bar">
     <div class="sticky-price">
-      <strong>{formatPrice(price)}</strong>
-      <span class="muted">/ {SITE.priceUnit}</span>
+      <strong>{price}</strong>
+      <span class="muted">/&nbsp;{unit}</span>
     </div>
     <a class="btn btn-wa" href={waHref} target="_blank" rel="noopener">
       <WhatsAppIcon /> {available ? 'Арендовать' : 'Узнать'}

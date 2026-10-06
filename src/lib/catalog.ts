@@ -11,8 +11,21 @@ export function url(path = ''): string {
   return `${base}/${clean}`;
 }
 
+const nf = new Intl.NumberFormat('ru-RU');
+
 export function formatPrice(value: number): string {
-  return `${new Intl.NumberFormat('ru-RU').format(value)} ${SITE.currency}`;
+  return `${nf.format(value)} ${SITE.currency}`;
+}
+
+/** "4 000 ₸" or "1 000–2 000 ₸". */
+export function itemPrice(item: Item): string {
+  const { price, priceTo } = item.data;
+  return priceTo ? `${nf.format(price)}–${nf.format(priceTo)} ${SITE.currency}` : formatPrice(price);
+}
+
+/** "сутки" unless the item sets its own unit. */
+export function itemUnit(item: Item): string {
+  return item.data.unit ?? SITE.priceUnit;
 }
 
 /** wa.me link with a pre-filled message. */
@@ -24,7 +37,7 @@ export function whatsappLink(message?: string): string {
 export function itemWhatsappMessage(item: Item): string {
   const lines = [
     'Здравствуйте! Хочу арендовать:',
-    `${item.data.name} — ${formatPrice(item.data.price)} / ${SITE.priceUnit}`,
+    `${item.data.name} — ${itemPrice(item)} / ${itemUnit(item)}`,
     `${import.meta.env.SITE.replace(/\/$/, '')}${url(`item/${item.id}/`)}`,
     '',
     'Даты: ',

@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { SITE } from '../../site.config';
+import { getCategories, getItems, itemPrice, itemUnit, url, whatsappLink } from '../../lib/catalog';
+
+const categories = await getCategories();
+const items = await getItems();
+const groups = categories
+  .map((c) => ({ category: c, items: items.filter((i) => i.data.category.id === c.id) }))
+  .filter((g) => g.items.length > 0);
+---
+<Base title="Цены на прокат" description={`Прайс-лист проката в г. ${SITE.city}: цены за сутки на палатки, шатры, лодки, зимние палатки, мебель и посуду.`}>
+  <div class="container section">
+    <h1>Цены на прокат</h1>
+    <p class="muted lead">Цены указаны за сутки, если не написано иначе. Нажмите на название, чтобы посмотреть фото.</p>
+
+    {groups.map(({ category, items }) => (
+      <section class="group">
+        <h2><a href={url(`catalog/${category.id}/`)}>{category.data.name}</a></h2>
+        <ul class="rows">
+          {items.map((item) => (
+            <li class="row">
+              <a href={url(`item/${item.id}/`)}>{item.data.name}</a>
+              <span class="dots" aria-hidden="true"></span>
+              <span class="price">{itemPrice(item)}{itemUnit(item) !== SITE.priceUnit && <span class="muted"> / {itemUnit(item)}</span>}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
+      <WhatsAppIcon /> Забронировать в WhatsApp
+    </a>
+  </div>
+</Base>
+
+<style>
+  .lead {
+    max-width: 60ch;
+  }
+
+  .group {
+    margin: 28px 0;
+  }
+
+  .group h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .group h2 a {
+    text-decoration: none;
+    color: var(--brand);
+  }
+
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 4px 16px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 760px;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .row + .row {
+    border-top: 1px solid var(--line);
+  }
+
+  .row a {
+    text-decoration: none;
+  }
+
+  .row a:hover {
+    color: var(--brand);
+    text-decoration: underline;
+  }
+
+  .dots {
+    flex: 1;
+    min-width: 12px;
+  }
+
+  .price {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+</style>

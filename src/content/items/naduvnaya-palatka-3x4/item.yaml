@@ -1,0 +1,9 @@
+name: "Надувная палатка 3 × 4 м"
+category: palatki
+price: 15000
+featured: true
+order: 2
+photos:
+  - ./1.jpg
+specs:
+  "Размер": "3 × 4 м"

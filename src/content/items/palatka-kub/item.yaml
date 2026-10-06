@@ -1,0 +1,8 @@
+name: "Палатка-куб до 3 человек"
+category: zimnyaya-rybalka
+price: 5000
+order: 4
+photos:
+  - ./1.jpg
+specs:
+  "Вместимость": "до 3 человек"

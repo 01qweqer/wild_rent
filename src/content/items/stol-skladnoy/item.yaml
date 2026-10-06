@@ -1,9 +1,0 @@
-# SAMPLE ITEM — replace with a real one or delete this folder.
-name: Складной стол
-category: mebel
-price: 1500
-photos:
-  - ./1.jpg
-specs:
-  Размер: 120 × 60 см
-  Высота: 70 см

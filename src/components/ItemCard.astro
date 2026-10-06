@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { SITE } from '../site.config';
-import { formatPrice, url, type Item } from '../lib/catalog';
+import noPhoto from '../assets/no-photo.jpg';
+import { itemPrice, itemUnit, url, type Item } from '../lib/catalog';
 
 interface Props {
   item: Item;
@@ -9,24 +9,26 @@ interface Props {
 }
 
 const { item, eager = false } = Astro.props;
-const { name, price, photos, available, includes } = item.data;
+const { name, photos, available, isNew, includes, includesText } = item.data;
+const isSet = includes.length > 0 || includesText.length > 0;
 ---
 <article class="card">
   <a class="card-link" href={url(`item/${item.id}/`)}>
     <div class="card-photo">
       <Image
-        src={photos[0]}
-        alt={name}
+        src={photos[0] ?? noPhoto}
+        alt={photos[0] ? name : ''}
         widths={[320, 480, 640]}
         sizes="(min-width: 1080px) 280px, (min-width: 768px) 30vw, 46vw"
         loading={eager ? 'eager' : 'lazy'}
       />
       {!available && <span class="badge card-badge">Сейчас в аренде</span>}
-      {includes.length > 0 && <span class="card-set">Набор</span>}
+      {available && isNew && <span class="badge badge-new card-badge">Новинка</span>}
+      {isSet && <span class="card-set">Набор</span>}
     </div>
     <div class="card-body">
       <h3 class="card-title">{name}</h3>
-      <p class="card-price"><strong>{formatPrice(price)}</strong> <span class="muted">/ {SITE.priceUnit}</span></p>
+      <p class="card-price"><strong>{itemPrice(item)}</strong> <span class="muted">/&nbsp;{itemUnit(item)}</span></p>
     </div>
   </a>
 </article>

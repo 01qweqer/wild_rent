@@ -6,10 +6,12 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
 <header class="header">
   <div class="container header-inner">
     <a class="logo" href={url()} aria-label={`${SITE.name} — на главную`}>
-      <img src={url(SITE.logo)} alt={SITE.name} width="160" height="38" />
+      <img src={url(SITE.logo)} alt="" width="44" height="44" />
+      <span>{SITE.name}</span>
     </a>
     <nav class="nav" aria-label="Основное меню">
       <a href={url('catalog/')}>Каталог</a>
+      <a href={url('prices/')}>Цены</a>
       <a href={url('#how')}>Как арендовать</a>
       <a href={url('#contacts')}>Контакты</a>
     </nav>
@@ -37,9 +39,20 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
     min-height: 64px;
   }
 
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
   .logo img {
-    height: 36px;
-    width: auto;
+    width: 44px;
+    height: 44px;
   }
 
   .nav {
@@ -64,10 +77,20 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
     padding: 10px 16px;
   }
 
-  /* Phones: only "Каталог" + round WhatsApp button */
-  @media (max-width: 719px) {
-    .nav a:not(:first-child) {
+  /* Phones: "Каталог", "Цены" + round WhatsApp button */
+  @media (max-width: 379px) {
+    .logo span {
       display: none;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .nav a:nth-child(n + 3) {
+      display: none;
+    }
+
+    .nav a {
+      padding-inline: 8px;
     }
 
     .header-wa {

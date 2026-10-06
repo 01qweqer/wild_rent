@@ -1,0 +1,10 @@
+name: "Самовар 5–8 л"
+category: kuhnya
+price: 3500
+priceTo: 4500
+order: 4
+photos:
+  - ./1.jpg
+description: "Цена зависит от объёма."
+specs:
+  "Объём": "5–8 л"
