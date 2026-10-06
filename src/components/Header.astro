@@ -1,0 +1,109 @@
+---
+import { SITE } from '../site.config';
+import { url, whatsappLink } from '../lib/catalog';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+---
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href={url()} aria-label={`${SITE.name} — на главную`}>
+      <img src={url(SITE.logo)} alt="" width="44" height="44" />
+      <span>{SITE.name}</span>
+    </a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href={url('catalog/')}>Каталог</a>
+      <a href={url('prices/')}>Цены</a>
+      <a href={url('#how')}>Как арендовать</a>
+      <a href={url('#contacts')}>Контакты</a>
+    </nav>
+    <a class="btn btn-wa header-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
+      <WhatsAppIcon />
+      <span class="header-wa-text">Написать в WhatsApp</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgb(246 243 236 / 92%);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .logo img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .nav a {
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .nav a:hover {
+    background: var(--surface-2);
+  }
+
+  .header-wa {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+
+  /* Phones: "Каталог", "Цены" + round WhatsApp button */
+  @media (max-width: 379px) {
+    .logo span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .nav a:nth-child(n + 3) {
+      display: none;
+    }
+
+    .nav a {
+      padding-inline: 8px;
+    }
+
+    .header-wa {
+      width: 44px;
+      padding: 0;
+    }
+
+    .header-wa-text {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+  }
+</style>

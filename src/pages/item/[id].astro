@@ -1,0 +1,281 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getImage } from 'astro:assets';
+import { getEntries, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Gallery from '../../components/Gallery.astro';
+import ItemCard from '../../components/ItemCard.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { SITE } from '../../site.config';
+import { formatPrice, getItems, hasPhotos, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
+
+export const getStaticPaths = (async () => {
+  // Only items with photos get their own page; the rest are listed as rows in the catalog.
+  const items = (await getItems()).filter(hasPhotos);
+  return items.map((item) => ({ params: { id: item.id }, props: { item, all: items } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  item: Item;
+  all: Item[];
+}
+
+const { item, all } = Astro.props;
+const { name, deposit, available, isNew, photos, description, specs, includesText } = item.data;
+const price = itemPrice(item);
+const unit = itemUnit(item);
+const category = await getEntry(item.data.category);
+const included = await getEntries(item.data.includes);
+// Sets that contain this item.
+const inSets = all.filter((other) => other.data.includes.some((ref) => ref.id === item.id));
+const related = all
+  .filter((other) => other.id !== item.id && other.data.category.id === item.data.category.id)
+  .slice(0, 4);
+
+const specEntries = Object.entries(specs);
+const waHref = whatsappLink(itemWhatsappMessage(item));
+const waLabel = available ? 'Арендовать в WhatsApp' : 'Узнать, когда освободится';
+const ogImage = photos[0] ? await getImage({ src: photos[0], width: 1200, format: 'jpg' }) : undefined;
+const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price} / ${unit}. ${description ?? ''}`.trim();
+---
+<Base title={name} description={metaDescription} image={ogImage?.src} hideFab>
+  <div class="container section">
+    <nav class="crumbs" aria-label="Навигация">
+      <a href={url('catalog/')}>Каталог</a>
+      <span aria-hidden="true">/</span>
+      <a href={url(`catalog/${category.id}/`)}>{category.data.name}</a>
+    </nav>
+
+    <div class="layout">
+      <div class="media">
+        <Gallery photos={photos} alt={name} />
+      </div>
+
+      <div class="info">
+        <h1>{name}</h1>
+        {!available && <p><span class="badge">Сейчас в аренде</span></p>}
+        {available && isNew && <p><span class="badge badge-new">Новинка</span></p>}
+
+        <div class="price-box">
+          <p class="price"><strong>{price}</strong> <span class="muted">/&nbsp;{unit}</span></p>
+          {deposit && <p class="muted deposit">Залог: {formatPrice(deposit)}</p>}
+          <a class="btn btn-wa btn-block" href={waHref} target="_blank" rel="noopener">
+            <WhatsAppIcon /> {waLabel}
+          </a>
+          <p class="muted hint">Откроется WhatsApp с готовым сообщением — останется указать даты.</p>
+        </div>
+
+        {description && <p class="description">{description}</p>}
+
+        {(included.length > 0 || includesText.length > 0) && (
+          <section class="block">
+            <h2 class="block-title">Что входит в набор</h2>
+            <ul class="included">
+              {included.map((i) => (
+                <li><a href={url(`item/${i.id}/`)}>{i.data.name}</a></li>
+              ))}
+              {includesText.map((t) => <li>{t}</li>)}
+            </ul>
+          </section>
+        )}
+
+        {specEntries.length > 0 && (
+          <section class="block">
+            <h2 class="block-title">Характеристики</h2>
+            <dl class="specs">
+              {specEntries.map(([key, value]) => (
+                <div class="spec-row">
+                  <dt>{key}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+      </div>
+    </div>
+
+    {inSets.length > 0 && (
+      <section class="more">
+        <h2>Входит в наборы — выгоднее</h2>
+        <div class="grid">
+          {inSets.map((set) => <ItemCard item={set} />)}
+        </div>
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <section class="more">
+        <h2>Ещё в категории «{category.data.name}»</h2>
+        <div class="grid">
+          {related.map((r) => <ItemCard item={r} />)}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <!-- Sticky WhatsApp bar on phones -->
+  <div class="sticky-bar">
+    <div class="sticky-price">
+      <strong>{price}</strong>
+      <span class="muted">/&nbsp;{unit}</span>
+    </div>
+    <a class="btn btn-wa" href={waHref} target="_blank" rel="noopener">
+      <WhatsAppIcon /> {available ? 'Арендовать' : 'Узнать'}
+    </a>
+  </div>
+</Base>
+
+<style>
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .crumbs a {
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .crumbs a:hover {
+    color: var(--brand);
+    text-decoration: underline;
+  }
+
+  .layout {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+
+    .media {
+      position: sticky;
+      top: 84px;
+    }
+  }
+
+  .info h1 {
+    font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2.1rem);
+  }
+
+  .price-box {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    margin: 16px 0 20px;
+  }
+
+  .price {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+  }
+
+  .price strong {
+    font-size: 1.7rem;
+    font-weight: 800;
+  }
+
+  .deposit {
+    margin: 0 0 14px;
+  }
+
+  .price > :last-child {
+    margin-bottom: 14px;
+  }
+
+  .hint {
+    margin: 10px 0 0;
+    font-size: 0.88rem;
+  }
+
+  .description {
+    white-space: pre-line;
+  }
+
+  .block {
+    margin-top: 24px;
+  }
+
+  .block-title {
+    font-size: 1.15rem;
+  }
+
+  .included {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    gap: 4px;
+  }
+
+  .included a {
+    color: var(--brand);
+    font-weight: 600;
+  }
+
+  .specs {
+    margin: 0;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 12px;
+    padding: 10px 16px;
+  }
+
+  .spec-row + .spec-row {
+    border-top: 1px solid var(--line);
+  }
+
+  .spec-row dt {
+    color: var(--muted);
+  }
+
+  .spec-row dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .more {
+    margin-top: 48px;
+  }
+
+  .sticky-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 20px rgb(0 0 0 / 8%);
+  }
+
+  .sticky-price strong {
+    font-size: 1.2rem;
+  }
+
+  @media (min-width: 900px) {
+    .sticky-bar {
+      display: none;
+    }
+  }
+</style>

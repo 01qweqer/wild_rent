@@ -1,0 +1,6 @@
+name: "Каримат"
+category: son
+price: 500
+order: 2
+photos:
+  - ./1.jpg

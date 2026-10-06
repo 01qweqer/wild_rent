@@ -1,0 +1,8 @@
+name: "Зимняя палатка двухкубовая 4 × 2 м"
+category: zimnyaya-rybalka
+price: 11000
+order: 2
+photos:
+  - ./1.jpg
+specs:
+  "Размер": "4 × 2 м"

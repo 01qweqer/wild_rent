@@ -1,0 +1,7 @@
+name: "Электрический ледобур"
+category: zimnyaya-rybalka
+price: 6000
+order: 5
+photos:
+  - ./1.jpg
+description: "Шнек для льда с аккумуляторным шуруповёртом."

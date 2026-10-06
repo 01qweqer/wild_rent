@@ -1,0 +1,6 @@
+name: "Чайник"
+category: kuhnya
+price: 1000
+order: 5
+photos:
+  - ./1.jpg

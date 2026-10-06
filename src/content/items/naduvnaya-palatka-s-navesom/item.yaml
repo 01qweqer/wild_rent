@@ -1,0 +1,9 @@
+name: "Надувная палатка с навесом 2,6 × 3 м"
+category: palatki
+price: 15000
+order: 3
+photos:
+  - ./1.jpg
+  - ./2.jpg
+specs:
+  "Размер": "2,6 × 3 м"

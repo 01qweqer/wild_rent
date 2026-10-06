@@ -1,0 +1,135 @@
+---
+import { SITE } from '../site.config';
+import { getCategories, url, whatsappLink } from '../lib/catalog';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const categories = await getCategories();
+const year = new Date().getFullYear();
+---
+<footer class="footer" id="contacts">
+  <div class="container footer-grid">
+    <div>
+      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="88" height="88" loading="lazy" />
+      <p class="muted">{SITE.tagline}</p>
+    </div>
+    <div>
+      <h3>Контакты</h3>
+      <ul class="list">
+        <li><a href={`tel:${SITE.phone.replace(/[^\d+]/g, '')}`}>{SITE.phone}</a></li>
+        <li>
+          {SITE.mapUrl
+            ? <a href={SITE.mapUrl} target="_blank" rel="noopener">г. {SITE.city}, {SITE.address}</a>
+            : <>г. {SITE.city}, {SITE.address}</>}
+        </li>
+        {SITE.hours && <li>{SITE.hours}</li>}
+      </ul>
+      <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
+        <WhatsAppIcon /> Написать в WhatsApp
+      </a>
+      {(SITE.instagram || SITE.tiktok) && (
+        <div class="socials">
+          {SITE.instagram && (
+            <a class="social" href={SITE.instagram} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+              Instagram
+            </a>
+          )}
+          {SITE.tiktok && (
+            <a class="social" href={SITE.tiktok} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.2a6.3 6.3 0 1 0 5.3 6.2V8.6a7.7 7.7 0 0 0 4.4 1.4V6.7a4.4 4.4 0 0 1-4.4-4.4z" /></svg>
+              TikTok
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+    <div>
+      <h3>Каталог</h3>
+      <ul class="list">
+        {categories.map((c) => <li><a href={url(`catalog/${c.id}/`)}>{c.data.name}</a></li>)}
+        <li><a href={url('prices/')}><strong>Все цены</strong></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container copy muted">© {year} {SITE.name}</div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 48px;
+    padding-block: 40px 96px;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 28px;
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+
+    .footer {
+      padding-bottom: 40px;
+    }
+  }
+
+  .footer-logo {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 12px;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .list a {
+    text-decoration: none;
+  }
+
+  .list a:hover {
+    text-decoration: underline;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .social {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .social:hover {
+    box-shadow: inset 0 0 0 1px var(--brand);
+    color: var(--brand);
+  }
+
+  .social svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .copy {
+    margin-top: 28px;
+    font-size: 0.9rem;
+  }
+</style>

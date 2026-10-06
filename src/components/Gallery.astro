@@ -1,0 +1,153 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import noPhoto from '../assets/no-photo.jpg';
+
+interface Props {
+  photos: ImageMetadata[];
+  alt: string;
+}
+
+const { alt } = Astro.props;
+const photos = Astro.props.photos.length ? Astro.props.photos : [noPhoto];
+// Large version opened on tap (lets people zoom in on phones).
+const large = await Promise.all(photos.map((p) => getImage({ src: p, width: Math.min(p.width, 1600) })));
+---
+<div class="gallery" data-gallery>
+  <div class="slides" data-slides tabindex="0" aria-label="Фотографии">
+    {photos.map((photo, i) => (
+      <a class="slide" href={large[i].src} target="_blank" rel="noopener" aria-label={`Открыть фото ${i + 1} в полном размере`}>
+        <Image
+          src={photo}
+          alt={photos.length > 1 ? `${alt} — фото ${i + 1}` : alt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 900px) 580px, 100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+        />
+      </a>
+    ))}
+  </div>
+  {photos.length > 1 && (
+    <>
+      <span class="counter" data-counter aria-hidden="true">1 / {photos.length}</span>
+      <div class="thumbs">
+        {photos.map((photo, i) => (
+          <button type="button" class="thumb" data-thumb={i} aria-label={`Показать фото ${i + 1}`} aria-current={i === 0 ? 'true' : undefined}>
+            <Image src={photo} alt="" width={120} height={90} />
+          </button>
+        ))}
+      </div>
+    </>
+  )}
+</div>
+
+<script>
+  for (const gallery of document.querySelectorAll<HTMLElement>('[data-gallery]')) {
+    const slides = gallery.querySelector<HTMLElement>('[data-slides]')!;
+    const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>('[data-thumb]')];
+    const counter = gallery.querySelector<HTMLElement>('[data-counter]');
+    if (thumbs.length === 0) continue;
+
+    const setActive = (index: number) => {
+      thumbs.forEach((t, i) => t.toggleAttribute('aria-current', i === index));
+      if (counter) counter.textContent = `${index + 1} / ${thumbs.length}`;
+    };
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        slides.scrollTo({ left: slides.clientWidth * i, behavior: 'smooth' });
+      });
+    });
+
+    let raf = 0;
+    slides.addEventListener('scroll', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setActive(Math.round(slides.scrollLeft / slides.clientWidth)));
+    });
+  }
+</script>
+
+<style>
+  .gallery {
+    position: relative;
+  }
+
+  .slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    aspect-ratio: 4 / 3;
+  }
+
+  .slides::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    cursor: zoom-in;
+  }
+
+  .slide :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .counter {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 55%);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  .thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .thumb {
+    flex: none;
+    width: 72px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.6;
+    background: none;
+    box-shadow: inset 0 0 0 2px transparent;
+  }
+
+  .thumb[aria-current] {
+    opacity: 1;
+    outline: 2px solid var(--brand);
+    outline-offset: 1px;
+  }
+
+  .thumb :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (min-width: 768px) {
+    .thumb {
+      width: 88px;
+    }
+  }
+</style>

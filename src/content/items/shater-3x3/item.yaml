@@ -1,0 +1,7 @@
+name: "Шатёр 3 × 3 м"
+category: palatki
+price: 9000
+order: 5
+photos: []   # no photo yet — add files to this folder and list them here
+specs:
+  "Размер": "3 × 3 м"

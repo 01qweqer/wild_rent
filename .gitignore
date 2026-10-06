@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+
+# Raw photos waiting to be imported (see photos-inbox/README.md)
+photos-inbox/*
+!photos-inbox/README.md

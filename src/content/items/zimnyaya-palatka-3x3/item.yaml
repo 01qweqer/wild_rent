@@ -1,0 +1,10 @@
+name: "Зимняя палатка 3 × 3 м до 4 человек"
+category: zimnyaya-rybalka
+price: 8000
+order: 3
+photos:
+  - ./1.jpg
+  - ./2.jpg
+specs:
+  "Размер": "3 × 3 м"
+  "Вместимость": "до 4 человек"

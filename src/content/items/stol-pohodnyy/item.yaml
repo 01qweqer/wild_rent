@@ -1,0 +1,7 @@
+name: "Стол походный"
+category: mebel
+price: 1000
+priceTo: 2000
+order: 1
+photos:
+  - ./1.jpg

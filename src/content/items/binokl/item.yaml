@@ -1,0 +1,6 @@
+name: "Бинокль"
+category: voda-i-rybalka
+price: 1500
+order: 8
+photos:
+  - ./1.jpg

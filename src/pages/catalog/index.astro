@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import CategoryItems from '../../components/CategoryItems.astro';
+import CategoryChips from '../../components/CategoryChips.astro';
+import { getCategories, getItems, url } from '../../lib/catalog';
+
+const categories = await getCategories();
+const items = await getItems();
+const groups = categories
+  .map((c) => ({ category: c, items: items.filter((i) => i.data.category.id === c.id) }))
+  .filter((g) => g.items.length > 0);
+---
+<Base title="Каталог" description="Каталог проката в Астане: палатки, шатры и юрты, лодки и сапы, зимняя рыбалка, мебель, казаны и самовары. Цены за сутки и фото.">
+  <div class="container section">
+    <h1>Каталог</h1>
+    <CategoryChips categories={categories} />
+    {groups.map(({ category, items }, gi) => (
+      <section class="group">
+        <div class="section-head">
+          <h2>{category.data.name}</h2>
+          <a class="link-more" href={url(`catalog/${category.id}/`)}>Только эта категория →</a>
+        </div>
+        <CategoryItems items={items} eager={gi === 0} />
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .group + .group {
+    margin-top: 40px;
+  }
+</style>

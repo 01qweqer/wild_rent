@@ -1,0 +1,7 @@
+name: "Сани-волокуши"
+category: zimnyaya-rybalka
+price: 1000
+priceTo: 1500
+order: 9
+photos:
+  - ./1.jpg

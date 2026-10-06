@@ -1,0 +1,124 @@
+---
+// Compact list for items without photos: name, short detail, price and a WhatsApp button.
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { itemPrice, itemUnit, itemWhatsappMessage, whatsappLink, type Item } from '../lib/catalog';
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+<ul class="rows">
+  {items.map((item) => {
+    // Show the description, or the first characteristic unless the name already says it.
+    const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '');
+    const firstSpec = Object.entries(item.data.specs)[0];
+    const specText =
+      firstSpec && !norm(item.data.name).includes(norm(String(firstSpec[1])))
+        ? `${firstSpec[0]}: ${firstSpec[1]}`
+        : undefined;
+    const detail = item.data.description ?? specText;
+    return (
+      <li class="row">
+        <div class="row-main">
+          <span class="row-name">{item.data.name}</span>
+          {detail && <span class="row-detail muted">{detail}</span>}
+          {!item.data.available && <span class="badge">Сейчас в аренде</span>}
+        </div>
+        <span class="row-price"><strong>{itemPrice(item)}</strong><span class="muted"> / {itemUnit(item)}</span></span>
+        <a class="row-wa" href={whatsappLink(itemWhatsappMessage(item))} target="_blank" rel="noopener" aria-label={`Арендовать: ${item.data.name} — написать в WhatsApp`}>
+          <WhatsAppIcon />
+        </a>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0 16px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .row + .row {
+    border-top: 1px solid var(--line);
+  }
+
+  .row-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .row-name {
+    font-weight: 600;
+  }
+
+  .row-detail {
+    font-size: 0.88rem;
+  }
+
+  .row-price {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .row-price .muted {
+    font-size: 0.88rem;
+  }
+
+  .row-wa {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--wa);
+    color: #fff;
+  }
+
+  .row-wa:hover {
+    background: var(--wa-hover);
+  }
+
+  .row-wa :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Narrow phones: price goes under the name */
+  @media (max-width: 420px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'main wa' 'price wa';
+      row-gap: 4px;
+    }
+
+    .row-main {
+      grid-area: main;
+    }
+
+    .row-price {
+      grid-area: price;
+      text-align: left;
+    }
+
+    .row-wa {
+      grid-area: wa;
+    }
+  }
+</style>
