@@ -28,6 +28,20 @@ export function itemUnit(item: Item): string {
   return item.data.unit ?? SITE.priceUnit;
 }
 
+/**
+ * Items with photos get a card and their own page.
+ * Items without photos are shown as a compact row (name, price, WhatsApp button).
+ * Adding a photo to an item moves it from the list into the cards automatically.
+ */
+export function hasPhotos(item: Item): boolean {
+  return item.data.photos.length > 0;
+}
+
+/** Link to the item's page, or undefined if the item has no page (no photos yet). */
+export function itemPageUrl(item: Item): string | undefined {
+  return hasPhotos(item) ? url(`item/${item.id}/`) : undefined;
+}
+
 /** wa.me link with a pre-filled message. */
 export function whatsappLink(message?: string): string {
   const base = `https://wa.me/${SITE.whatsapp}`;
@@ -35,10 +49,11 @@ export function whatsappLink(message?: string): string {
 }
 
 export function itemWhatsappMessage(item: Item): string {
+  const page = itemPageUrl(item);
   const lines = [
     'Здравствуйте! Хочу арендовать:',
     `${item.data.name} — ${itemPrice(item)} / ${itemUnit(item)}`,
-    `${import.meta.env.SITE.replace(/\/$/, '')}${url(`item/${item.id}/`)}`,
+    ...(page ? [`${import.meta.env.SITE.replace(/\/$/, '')}${page}`] : []),
     '',
     'Даты: ',
   ];

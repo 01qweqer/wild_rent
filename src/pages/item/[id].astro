@@ -7,10 +7,11 @@ import Gallery from '../../components/Gallery.astro';
 import ItemCard from '../../components/ItemCard.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
 import { SITE } from '../../site.config';
-import { formatPrice, getItems, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
+import { formatPrice, getItems, hasPhotos, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
 
 export const getStaticPaths = (async () => {
-  const items = await getItems();
+  // Only items with photos get their own page; the rest are listed as rows in the catalog.
+  const items = (await getItems()).filter(hasPhotos);
   return items.map((item) => ({ params: { id: item.id }, props: { item, all: items } }));
 }) satisfies GetStaticPaths;
 

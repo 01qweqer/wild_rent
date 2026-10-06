@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
 import { SITE } from '../../site.config';
-import { getCategories, getItems, itemPrice, itemUnit, url, whatsappLink } from '../../lib/catalog';
+import { getCategories, getItems, itemPageUrl, itemPrice, itemUnit, url, whatsappLink } from '../../lib/catalog';
 
 const categories = await getCategories();
 const items = await getItems();
@@ -13,7 +13,7 @@ const groups = categories
 <Base title="Цены на прокат" description={`Прайс-лист проката в г. ${SITE.city}: цены за сутки на палатки, шатры, лодки, зимние палатки, мебель и посуду.`}>
   <div class="container section">
     <h1>Цены на прокат</h1>
-    <p class="muted lead">Цены указаны за сутки, если не написано иначе. Нажмите на название, чтобы посмотреть фото.</p>
+    <p class="muted lead">Цены указаны за сутки, если не написано иначе. Нажмите на подчёркнутое название, чтобы посмотреть фото.</p>
 
     {groups.map(({ category, items }) => (
       <section class="group">
@@ -21,7 +21,7 @@ const groups = categories
         <ul class="rows">
           {items.map((item) => (
             <li class="row">
-              <a href={url(`item/${item.id}/`)}>{item.data.name}</a>
+              {itemPageUrl(item) ? <a href={itemPageUrl(item)}>{item.data.name}</a> : <span>{item.data.name}</span>}
               <span class="dots" aria-hidden="true"></span>
               <span class="price">{itemPrice(item)}{itemUnit(item) !== SITE.priceUnit && <span class="muted"> / {itemUnit(item)}</span>}</span>
             </li>
@@ -77,7 +77,9 @@ const groups = categories
   }
 
   .row a {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
   }
 
   .row a:hover {

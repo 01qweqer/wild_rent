@@ -37,6 +37,13 @@ src/content/
 
 The folder name becomes the page address: `…/item/palatka-4-mestnaya/`. Use Latin letters, digits and `-` only, and don't rename a folder after customers have the link.
 
+### Items with and without photos
+
+- **With photos:** the item gets a photo card in the catalog and its own page.
+- **Without photos** (`photos: []`): the item appears under "Также в прокате" ("Also for rent") as a compact row with its name, price and a WhatsApp button. It's also on the "Цены" (Prices) page.
+
+When you add a photo, the item moves from the list into the photo cards automatically.
+
 ### Item file (`item.yaml`)
 
 ```yaml

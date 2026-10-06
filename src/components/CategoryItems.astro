@@ -1,0 +1,43 @@
+---
+// Items of one category: photo cards first, then a compact list of items without photos.
+import ItemCard from './ItemCard.astro';
+import ItemRows from './ItemRows.astro';
+import { hasPhotos, type Item } from '../lib/catalog';
+
+interface Props {
+  items: Item[];
+  /** Load the first few photos immediately (top of the page). */
+  eager?: boolean;
+}
+
+const { items, eager = false } = Astro.props;
+const withPhotos = items.filter(hasPhotos);
+const withoutPhotos = items.filter((i) => !hasPhotos(i));
+---
+{withPhotos.length > 0 && (
+  <div class="grid">
+    {withPhotos.map((item, i) => <ItemCard item={item} eager={eager && i < 4} />)}
+  </div>
+)}
+{withoutPhotos.length > 0 && (
+  <div class="more">
+    {withPhotos.length > 0 && <h3 class="more-title">Также в прокате</h3>}
+    <ItemRows items={withoutPhotos} />
+    <p class="muted more-hint">Фото этих вещей пришлём в WhatsApp — нажмите на зелёную кнопку.</p>
+  </div>
+)}
+
+<style>
+  .grid + .more {
+    margin-top: 20px;
+  }
+
+  .more-title {
+    margin-bottom: 10px;
+  }
+
+  .more-hint {
+    margin: 8px 0 0;
+    font-size: 0.88rem;
+  }
+</style>
