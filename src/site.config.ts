@@ -15,7 +15,7 @@ export const SITE = {
   city: 'Астана',
   address: 'Адрес уточняйте в WhatsApp',
   // Working hours, e.g. 'Ежедневно, 10:00–20:00'. Leave empty ('') to hide.
-  hours: '',
+  hours: 'Ежедневно, 9:00–20:00',
 
   // Leave empty ('') to hide the link.
   instagram: '',
