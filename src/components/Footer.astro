@@ -17,7 +17,7 @@ const year = new Date().getFullYear();
       <ul class="list">
         <li><a href={`tel:${SITE.phone.replace(/[^\d+]/g, '')}`}>{SITE.phone}</a></li>
         <li>{SITE.city}. {SITE.address}</li>
-        <li>{SITE.hours}</li>
+        {SITE.hours && <li>{SITE.hours}</li>}
         {SITE.instagram && <li><a href={SITE.instagram} target="_blank" rel="noopener">Instagram</a></li>}
       </ul>
       <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">

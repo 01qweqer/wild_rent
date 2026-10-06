@@ -1,5 +1,4 @@
 // Shop contacts and global settings.
-// Values marked TODO are placeholders — replace them with the real ones.
 
 export const SITE = {
   name: 'Wild Rent',
@@ -8,16 +7,15 @@ export const SITE = {
     'Аренда палаток, спальников, туристической мебели и рыболовного снаряжения. Смотрите фото, выбирайте и бронируйте через WhatsApp.',
 
   // WhatsApp number in international format, digits only (no "+", spaces or dashes).
-  // TODO: replace with the real number.
-  whatsapp: '77000000000',
+  whatsapp: '77007577315',
 
-  // Phone shown on the site as text. TODO: replace.
-  phone: '+7 700 000 00 00',
+  // Phone shown on the site as text.
+  phone: '+7 700 757 73 15',
 
-  // TODO: replace with the real city / address / working hours.
-  city: 'Алматы',
+  city: 'Астана',
   address: 'Адрес уточняйте в WhatsApp',
-  hours: 'Ежедневно, 10:00–20:00',
+  // Working hours, e.g. 'Ежедневно, 10:00–20:00'. Leave empty ('') to hide.
+  hours: '',
 
   // Leave empty ('') to hide the link.
   instagram: '',
