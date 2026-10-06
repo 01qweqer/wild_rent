@@ -1,0 +1,250 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ItemCard from '../components/ItemCard.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { SITE } from '../site.config';
+import { getCategories, getItems, url, whatsappLink } from '../lib/catalog';
+
+const categories = await getCategories();
+const items = await getItems();
+const featured = items.filter((i) => i.data.featured).slice(0, 8);
+
+// Each category card shows the first photo of its first item.
+const categoryCards = categories
+  .map((c) => {
+    const inCategory = items.filter((i) => i.data.category.id === c.id);
+    return { category: c, count: inCategory.length, photo: inCategory[0]?.data.photos[0] };
+  })
+  .filter((c) => c.count > 0);
+
+const steps = [
+  { title: 'Выберите снаряжение', text: 'Посмотрите фото и характеристики в каталоге.' },
+  { title: 'Напишите в WhatsApp', text: 'Нажмите «Арендовать» — сообщение с названием вещи заполнится само. Укажите даты.' },
+  { title: 'Заберите и отдыхайте', text: 'Договоримся о залоге, самовывозе или доставке прямо в переписке.' },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="hero-kicker">{SITE.city}</p>
+      <h1>Прокат снаряжения для&nbsp;походов и&nbsp;рыбалки</h1>
+      <p class="hero-text">Палатки, спальники, мебель, рыболовные снасти и готовые наборы. Не покупайте — берите в аренду посуточно.</p>
+      <div class="hero-actions">
+        <a class="btn btn-light" href={url('catalog/')}>Смотреть каталог</a>
+        <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
+          <WhatsAppIcon /> Написать в WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <h2>Категории</h2>
+      <a class="link-more" href={url('catalog/')}>Весь каталог →</a>
+    </div>
+    <div class="cats">
+      {categoryCards.map(({ category, count, photo }, i) => (
+        <a class="cat" href={url(`catalog/${category.id}/`)}>
+          {photo && (
+            <Image src={photo} alt="" widths={[320, 480, 640]} sizes="(min-width: 768px) 30vw, 46vw" loading={i < 4 ? 'eager' : 'lazy'} />
+          )}
+          <span class="cat-label">
+            <strong>{category.data.name}</strong>
+            <span>{count} шт.</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section container">
+      <div class="section-head">
+        <h2>Популярное</h2>
+        <a class="link-more" href={url('catalog/')}>Все товары →</a>
+      </div>
+      <div class="grid">
+        {featured.map((item) => <ItemCard item={item} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="section container" id="how">
+    <h2>Как арендовать</h2>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step">
+          <span class="step-num">{i + 1}</span>
+          <h3>{s.title}</h3>
+          <p class="muted">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background:
+      radial-gradient(1200px 400px at 85% -10%, rgb(163 184 108 / 35%), transparent 60%),
+      linear-gradient(160deg, #23472d 0%, #2f5d3a 55%, #3f6f45 100%);
+    color: #fff;
+  }
+
+  .hero-inner {
+    padding-block: 44px 52px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-inner {
+      padding-block: 80px 88px;
+    }
+  }
+
+  .hero h1 {
+    max-width: 16ch;
+  }
+
+  .hero-kicker {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 14%);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .hero-text {
+    max-width: 52ch;
+    font-size: 1.08rem;
+    opacity: 0.92;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn-light {
+    background: #fff;
+    color: var(--brand);
+  }
+
+  .btn-light:hover {
+    background: var(--brand-soft);
+  }
+
+  @media (max-width: 479px) {
+    .hero-actions .btn {
+      width: 100%;
+    }
+  }
+
+  .cats {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    .cats {
+      gap: 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .cat {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+  }
+
+  .cat :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .cat:hover :global(img) {
+    transform: scale(1.04);
+  }
+
+  .cat-label {
+    position: absolute;
+    inset: auto 0 0;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 12px 10px;
+    background: linear-gradient(transparent, rgb(0 0 0 / 70%));
+    line-height: 1.25;
+  }
+
+  .cat-label strong {
+    font-size: 1rem;
+  }
+
+  .cat-label span {
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+
+  @media (min-width: 768px) {
+    .cat-label {
+      padding: 40px 18px 14px;
+    }
+
+    .cat-label strong {
+      font-size: 1.2rem;
+    }
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+
+  .step {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .step p {
+    margin: 0;
+  }
+
+  .step-num {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-weight: 800;
+  }
+</style>

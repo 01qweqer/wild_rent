@@ -1,0 +1,20 @@
+# SAMPLE SET — replace with a real one or delete this folder.
+name: Набор «Поход на двоих»
+category: nabory
+price: 7000
+deposit: 30000
+featured: true
+order: 1
+photos:
+  - ./1.jpg
+  - ./2.jpg
+description: >
+  Всё для ночёвки на природе вдвоём — выгоднее, чем брать по отдельности.
+includes:
+  - palatka-2-mestnaya
+  - spalnik-kokon
+  - kovrik-samonaduvayushchiysya
+  - gazovaya-gorelka
+includesText:
+  - Второй спальник и второй коврик
+  - Набор посуды на двоих

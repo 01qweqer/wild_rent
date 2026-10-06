@@ -1,0 +1,86 @@
+---
+import { SITE } from '../site.config';
+import { getCategories, url, whatsappLink } from '../lib/catalog';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+
+const categories = await getCategories();
+const year = new Date().getFullYear();
+---
+<footer class="footer" id="contacts">
+  <div class="container footer-grid">
+    <div>
+      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="160" height="38" />
+      <p class="muted">{SITE.tagline}</p>
+    </div>
+    <div>
+      <h3>Контакты</h3>
+      <ul class="list">
+        <li><a href={`tel:${SITE.phone.replace(/[^\d+]/g, '')}`}>{SITE.phone}</a></li>
+        <li>{SITE.city}. {SITE.address}</li>
+        <li>{SITE.hours}</li>
+        {SITE.instagram && <li><a href={SITE.instagram} target="_blank" rel="noopener">Instagram</a></li>}
+      </ul>
+      <a class="btn btn-wa" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener">
+        <WhatsAppIcon /> Написать в WhatsApp
+      </a>
+    </div>
+    <div>
+      <h3>Каталог</h3>
+      <ul class="list">
+        {categories.map((c) => <li><a href={url(`catalog/${c.id}/`)}>{c.data.name}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="container copy muted">© {year} {SITE.name}</div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 48px;
+    padding-block: 40px 96px;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 28px;
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+
+    .footer {
+      padding-bottom: 40px;
+    }
+  }
+
+  .footer-logo {
+    height: 36px;
+    width: auto;
+    margin-bottom: 12px;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .list a {
+    text-decoration: none;
+  }
+
+  .list a:hover {
+    text-decoration: underline;
+  }
+
+  .copy {
+    margin-top: 28px;
+    font-size: 0.9rem;
+  }
+</style>

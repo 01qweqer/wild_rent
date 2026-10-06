@@ -1,0 +1,29 @@
+# Categories of the catalog.
+# id     — used in the web address (/catalog/<id>/) and in item.yaml "category:". Latin letters, digits and "-" only.
+# name   — shown on the site.
+# order  — lower numbers are shown first.
+
+- id: nabory
+  name: Готовые наборы
+  order: 1
+  description: Всё необходимое для похода или рыбалки одним комплектом — выгоднее, чем по отдельности.
+
+- id: palatki
+  name: Палатки
+  order: 2
+
+- id: spalniki
+  name: Спальники и коврики
+  order: 3
+
+- id: rybalka
+  name: Рыбалка
+  order: 4
+
+- id: mebel
+  name: Туристическая мебель
+  order: 5
+
+- id: kuhnya
+  name: Кухня и газ
+  order: 6

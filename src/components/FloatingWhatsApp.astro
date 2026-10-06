@@ -1,0 +1,33 @@
+---
+import { whatsappLink } from '../lib/catalog';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+---
+<a class="fab" href={whatsappLink('Здравствуйте! Хочу узнать про аренду снаряжения.')} target="_blank" rel="noopener" aria-label="Написать в WhatsApp">
+  <WhatsAppIcon />
+</a>
+
+<style>
+  .fab {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--wa);
+    color: #fff;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 22%);
+  }
+
+  .fab:hover {
+    background: var(--wa-hover);
+  }
+
+  .fab :global(svg) {
+    width: 30px;
+    height: 30px;
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/catalog';
+---
+<Base title="Страница не найдена">
+  <div class="container section">
+    <h1>Страница не найдена</h1>
+    <p class="muted">Возможно, этой вещи больше нет в прокате или ссылка устарела.</p>
+    <a class="btn btn-outline" href={url('catalog/')}>Перейти в каталог</a>
+  </div>
+</Base>

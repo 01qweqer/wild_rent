@@ -1,0 +1,9 @@
+# SAMPLE ITEM — replace with a real one or delete this folder.
+name: Газовая горелка
+category: kuhnya
+price: 1000
+photos:
+  - ./1.jpg
+specs:
+  Мощность: 2,5 кВт
+  Баллон: цанговый, в комплект не входит

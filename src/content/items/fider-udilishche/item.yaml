@@ -1,0 +1,12 @@
+# SAMPLE ITEM — replace with a real one or delete this folder.
+name: Фидерное удилище с катушкой
+category: rybalka
+price: 1500
+deposit: 10000
+featured: true
+photos:
+  - ./1.jpg
+specs:
+  Длина: 3,6 м
+  Тест: до 90 г
+  Катушка: 4000, леска 0,25 мм

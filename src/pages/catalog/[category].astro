@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import ItemCard from '../../components/ItemCard.astro';
+import CategoryChips from '../../components/CategoryChips.astro';
+import { getCategories, getItemsByCategory, type Category } from '../../lib/catalog';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCategories();
+  return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const categories = await getCategories();
+const items = await getItemsByCategory(category.id);
+---
+<Base title={category.data.name} description={category.data.description ?? `${category.data.name} в аренду посуточно. Фото, характеристики и цены.`}>
+  <div class="container section">
+    <h1>{category.data.name}</h1>
+    {category.data.description && <p class="muted lead">{category.data.description}</p>}
+    <CategoryChips categories={categories} current={category.id} />
+    {items.length > 0 ? (
+      <div class="grid">
+        {items.map((item, i) => <ItemCard item={item} eager={i < 4} />)}
+      </div>
+    ) : (
+      <p class="muted">В этой категории пока ничего нет.</p>
+    )}
+  </div>
+</Base>
+
+<style>
+  .lead {
+    max-width: 60ch;
+  }
+</style>

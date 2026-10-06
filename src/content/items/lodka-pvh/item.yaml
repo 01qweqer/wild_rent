@@ -1,0 +1,16 @@
+# SAMPLE ITEM — replace with a real one or delete this folder.
+name: Лодка ПВХ 2-местная с вёслами
+category: rybalka
+price: 8000
+deposit: 50000
+available: false
+photos:
+  - ./1.jpg
+  - ./2.jpg
+description: >
+  Надувная лодка для рыбалки на озере. В комплекте вёсла, насос и ремкомплект.
+specs:
+  Вместимость: 2 человека
+  Длина: 2,8 м
+  Грузоподъёмность: 220 кг
+  Комплектация: лодка, вёсла, насос, ремкомплект, сумка

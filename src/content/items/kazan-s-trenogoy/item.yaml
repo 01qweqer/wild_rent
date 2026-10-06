@@ -1,0 +1,9 @@
+# SAMPLE ITEM — replace with a real one or delete this folder.
+name: Казан 12 л с треногой
+category: kuhnya
+price: 2500
+photos:
+  - ./1.jpg
+specs:
+  Объём: 12 л
+  Материал: чугун
