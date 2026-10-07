@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import noPhoto from '../assets/no-photo.jpg';
-import { itemPrice, itemUnit, url, type Item } from '../lib/catalog';
+import { hasPrice, itemPrice, itemUnit, url, type Item } from '../lib/catalog';
 
 interface Props {
   item: Item;
@@ -28,7 +28,7 @@ const isSet = includes.length > 0 || includesText.length > 0;
     </div>
     <div class="card-body">
       <h3 class="card-title">{name}</h3>
-      <p class="card-price"><strong>{itemPrice(item)}</strong> <span class="muted">/&nbsp;{itemUnit(item)}</span></p>
+      <p class="card-price"><strong>{itemPrice(item)}</strong> {hasPrice(item) && <span class="muted">/&nbsp;{itemUnit(item)}</span>}</p>
     </div>
   </a>
 </article>

@@ -1,7 +1,6 @@
-name: "Стол походный"
+name: "Стол складной на 6–8 человек"
 category: mebel
-price: 1000
-priceTo: 2000
+price: 1500
 order: 1
 photos:
   - ./1.jpg

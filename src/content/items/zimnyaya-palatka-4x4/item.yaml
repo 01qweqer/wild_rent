@@ -1,10 +1,11 @@
 name: "Зимняя палатка 4 × 4 м до 10 человек"
 category: zimnyaya-rybalka
-price: 13000
+price: 11000
 featured: true
 order: 1
 photos:
   - ./1.jpg
+  - ./2.jpg
 specs:
   "Размер": "4 × 4 м"
   "Вместимость": "до 10 человек"
