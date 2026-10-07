@@ -1,7 +1,7 @@
 ---
 // Compact list for items without photos: name, short detail, price and a WhatsApp button.
 import WhatsAppIcon from './WhatsAppIcon.astro';
-import { itemPrice, itemUnit, itemWhatsappMessage, whatsappLink, type Item } from '../lib/catalog';
+import { hasPrice, itemPrice, itemUnit, itemWhatsappMessage, whatsappLink, type Item } from '../lib/catalog';
 
 interface Props {
   items: Item[];
@@ -26,7 +26,7 @@ const { items } = Astro.props;
           {detail && <span class="row-detail muted">{detail}</span>}
           {!item.data.available && <span class="badge">Сейчас в аренде</span>}
         </div>
-        <span class="row-price"><strong>{itemPrice(item)}</strong><span class="muted"> / {itemUnit(item)}</span></span>
+        <span class="row-price"><strong>{itemPrice(item)}</strong>{hasPrice(item) && <span class="muted"> / {itemUnit(item)}</span>}</span>
         <a class="row-wa" href={whatsappLink(itemWhatsappMessage(item))} target="_blank" rel="noopener" aria-label={`Арендовать: ${item.data.name} — написать в WhatsApp`}>
           <WhatsAppIcon />
         </a>

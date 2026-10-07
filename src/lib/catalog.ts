@@ -17,9 +17,15 @@ export function formatPrice(value: number): string {
   return `${nf.format(value)} ${SITE.currency}`;
 }
 
-/** "4 000 ₸", "1 000–2 000 ₸" or "от 1 500 ₸". */
+/** false = no price in item.yaml; the site shows "Цена по запросу". */
+export function hasPrice(item: Item): boolean {
+  return item.data.price !== undefined;
+}
+
+/** "4 000 ₸", "1 000–2 000 ₸", "от 1 500 ₸" or "Цена по запросу". */
 export function itemPrice(item: Item): string {
   const { price, priceTo, priceFrom } = item.data;
+  if (price === undefined) return 'Цена по запросу';
   if (priceTo) return `${nf.format(price)}–${nf.format(priceTo)} ${SITE.currency}`;
   return priceFrom ? `от ${formatPrice(price)}` : formatPrice(price);
 }
@@ -53,7 +59,7 @@ export function itemWhatsappMessage(item: Item): string {
   const page = itemPageUrl(item);
   const lines = [
     'Здравствуйте! Хочу арендовать:',
-    `${item.data.name} — ${itemPrice(item)} / ${itemUnit(item)}`,
+    hasPrice(item) ? `${item.data.name} — ${itemPrice(item)} / ${itemUnit(item)}` : item.data.name,
     ...(page ? [`${import.meta.env.SITE.replace(/\/$/, '')}${page}`] : []),
     '',
     'Даты: ',

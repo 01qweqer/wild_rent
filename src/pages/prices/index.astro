@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
 import { SITE } from '../../site.config';
-import { getCategories, getItems, itemPageUrl, itemPrice, itemUnit, url, whatsappLink } from '../../lib/catalog';
+import { getCategories, getItems, hasPrice, itemPageUrl, itemPrice, itemUnit, url, whatsappLink } from '../../lib/catalog';
 
 const categories = await getCategories();
 const items = await getItems();
@@ -23,7 +23,7 @@ const groups = categories
             <li class="row">
               {itemPageUrl(item) ? <a href={itemPageUrl(item)}>{item.data.name}</a> : <span>{item.data.name}</span>}
               <span class="dots" aria-hidden="true"></span>
-              <span class="price">{itemPrice(item)}{itemUnit(item) !== SITE.priceUnit && <span class="muted"> / {itemUnit(item)}</span>}</span>
+              <span class="price">{itemPrice(item)}{hasPrice(item) && itemUnit(item) !== SITE.priceUnit && <span class="muted"> / {itemUnit(item)}</span>}</span>
             </li>
           ))}
         </ul>

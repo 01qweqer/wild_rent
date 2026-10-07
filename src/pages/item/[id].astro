@@ -7,7 +7,7 @@ import Gallery from '../../components/Gallery.astro';
 import ItemCard from '../../components/ItemCard.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
 import { SITE } from '../../site.config';
-import { formatPrice, getItems, hasPhotos, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
+import { formatPrice, getItems, hasPhotos, hasPrice, itemPrice, itemUnit, itemWhatsappMessage, url, whatsappLink, type Item } from '../../lib/catalog';
 
 export const getStaticPaths = (async () => {
   // Only items with photos get their own page; the rest are listed as rows in the catalog.
@@ -23,7 +23,7 @@ interface Props {
 const { item, all } = Astro.props;
 const { name, deposit, available, isNew, photos, description, specs, includesText } = item.data;
 const price = itemPrice(item);
-const unit = itemUnit(item);
+const unit = hasPrice(item) ? itemUnit(item) : undefined;
 const category = await getEntry(item.data.category);
 const included = await getEntries(item.data.includes);
 // Sets that contain this item.
@@ -36,7 +36,7 @@ const specEntries = Object.entries(specs);
 const waHref = whatsappLink(itemWhatsappMessage(item));
 const waLabel = available ? 'Арендовать в WhatsApp' : 'Узнать, когда освободится';
 const ogImage = photos[0] ? await getImage({ src: photos[0], width: 1200, format: 'jpg' }) : undefined;
-const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price} / ${unit}. ${description ?? ''}`.trim();
+const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price}${unit ? ` / ${unit}` : ''}. ${description ?? ''}`.trim();
 ---
 <Base title={name} description={metaDescription} image={ogImage?.src} hideFab>
   <div class="container section">
@@ -57,7 +57,7 @@ const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price
         {available && isNew && <p><span class="badge badge-new">Новинка</span></p>}
 
         <div class="price-box">
-          <p class="price"><strong>{price}</strong> <span class="muted">/&nbsp;{unit}</span></p>
+          <p class="price"><strong>{price}</strong> {unit && <span class="muted">/&nbsp;{unit}</span>}</p>
           {deposit && <p class="muted deposit">Залог: {formatPrice(deposit)}</p>}
           <a class="btn btn-wa btn-block" href={waHref} target="_blank" rel="noopener">
             <WhatsAppIcon /> {waLabel}
@@ -118,7 +118,7 @@ const metaDescription = `${name} в аренду в г. ${SITE.city} — ${price
   <div class="sticky-bar">
     <div class="sticky-price">
       <strong>{price}</strong>
-      <span class="muted">/&nbsp;{unit}</span>
+      {unit && <span class="muted">/&nbsp;{unit}</span>}
     </div>
     <a class="btn btn-wa" href={waHref} target="_blank" rel="noopener">
       <WhatsAppIcon /> {available ? 'Арендовать' : 'Узнать'}

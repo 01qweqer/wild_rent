@@ -1,0 +1,7 @@
+name: "Шатёр-автомат до 8 человек"
+category: palatki
+order: 5
+photos:
+  - ./1.jpg
+specs:
+  "Вместимость": "до 8 человек"

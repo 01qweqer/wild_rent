@@ -25,8 +25,8 @@ const items = defineCollection({
     z.object({
       name: z.string(),
       category: reference('categories'),
-      // Price per day (or per `unit`, see below).
-      price: z.number().int().positive(),
+      // Price per day (or per `unit`, see below). Leave out to show "Цена по запросу".
+      price: z.number().int().positive().optional(),
       // Upper price for a range, e.g. price: 1000 + priceTo: 2000 → "1 000–2 000 ₸".
       priceTo: z.number().int().positive().optional(),
       // true = starting price, e.g. price: 1500 + priceFrom: true → "от 1 500 ₸".
