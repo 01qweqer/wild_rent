@@ -29,6 +29,8 @@ const items = defineCollection({
       price: z.number().int().positive(),
       // Upper price for a range, e.g. price: 1000 + priceTo: 2000 → "1 000–2 000 ₸".
       priceTo: z.number().int().positive().optional(),
+      // true = starting price, e.g. price: 1500 + priceFrom: true → "от 1 500 ₸".
+      priceFrom: z.boolean().default(false),
       // What the price is for. Default: сутки (per day). E.g. "мешок", "12 шт.".
       unit: z.string().optional(),
       // Optional deposit shown on the item page.

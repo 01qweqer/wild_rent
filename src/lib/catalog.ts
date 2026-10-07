@@ -17,10 +17,11 @@ export function formatPrice(value: number): string {
   return `${nf.format(value)} ${SITE.currency}`;
 }
 
-/** "4 000 ₸" or "1 000–2 000 ₸". */
+/** "4 000 ₸", "1 000–2 000 ₸" or "от 1 500 ₸". */
 export function itemPrice(item: Item): string {
-  const { price, priceTo } = item.data;
-  return priceTo ? `${nf.format(price)}–${nf.format(priceTo)} ${SITE.currency}` : formatPrice(price);
+  const { price, priceTo, priceFrom } = item.data;
+  if (priceTo) return `${nf.format(price)}–${nf.format(priceTo)} ${SITE.currency}`;
+  return priceFrom ? `от ${formatPrice(price)}` : formatPrice(price);
 }
 
 /** "сутки" unless the item sets its own unit. */
