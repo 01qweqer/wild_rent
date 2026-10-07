@@ -4,3 +4,5 @@ price: 1500
 order: 1
 photos:
   - ./1.jpg
+specs:
+  "Температура": "до −5 °C"

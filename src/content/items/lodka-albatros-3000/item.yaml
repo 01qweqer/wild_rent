@@ -1,0 +1,6 @@
+name: "Лодка ПВХ «Альбатрос 3000»"
+category: voda-i-rybalka
+price: 10000
+order: 2
+photos:
+  - ./1.jpg

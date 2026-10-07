@@ -1,0 +1,6 @@
+name: "Стол складной на 10 человек"
+category: mebel
+price: 2000
+order: 2
+photos:
+  - ./1.jpg
