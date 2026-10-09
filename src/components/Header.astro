@@ -6,8 +6,7 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
 <header class="header">
   <div class="container header-inner">
     <a class="logo" href={url()} aria-label={`${SITE.name} — на главную`}>
-      <img src={url(SITE.logo)} alt="" width="44" height="44" />
-      <span>{SITE.name}</span>
+      <img src={url(SITE.logo)} alt="" width="96" height="49" />
     </a>
     <nav class="nav" aria-label="Основное меню">
       <a href={url('catalog/')}>Каталог</a>
@@ -51,8 +50,9 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
   }
 
   .logo img {
-    width: 44px;
-    height: 44px;
+    width: auto;
+    height: 49px;
+    border-radius: 8px;
   }
 
   .nav {
@@ -78,12 +78,6 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
   }
 
   /* Phones: "Каталог", "Цены" + round WhatsApp button */
-  @media (max-width: 379px) {
-    .logo span {
-      display: none;
-    }
-  }
-
   @media (max-width: 719px) {
     .nav a:nth-child(n + 3) {
       display: none;

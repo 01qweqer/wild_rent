@@ -1,6 +1,6 @@
-name: "Спасательный жилет"
+name: "Подсак (сачок)"
 category: voda-i-rybalka
 price: 1000
-order: 3
+order: 9
 photos:
   - ./1.jpg

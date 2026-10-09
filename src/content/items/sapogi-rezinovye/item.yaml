@@ -1,6 +1,6 @@
-name: "Спасательный жилет"
+name: "Сапоги резиновые"
 category: voda-i-rybalka
 price: 1000
-order: 3
+order: 12
 photos:
   - ./1.jpg

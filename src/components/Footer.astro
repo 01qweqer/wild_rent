@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
 <footer class="footer" id="contacts">
   <div class="container footer-grid">
     <div>
-      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="88" height="88" loading="lazy" />
+      <img class="footer-logo" src={url(SITE.logo)} alt={SITE.name} width="220" height="112" loading="lazy" />
       <p class="muted">{SITE.tagline}</p>
     </div>
     <div>
@@ -78,8 +78,9 @@ const year = new Date().getFullYear();
   }
 
   .footer-logo {
-    width: 88px;
-    height: 88px;
+    width: 220px;
+    height: auto;
+    border-radius: var(--radius);
     margin-bottom: 12px;
   }
 

@@ -1,6 +1,6 @@
-name: "Бинокль"
+name: "Садок"
 category: voda-i-rybalka
-price: 1500
-order: 13
+price: 800
+order: 10
 photos:
   - ./1.jpg

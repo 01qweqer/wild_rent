@@ -1,6 +1,6 @@
-name: "Спасательный жилет"
+name: "Спиннинг"
 category: voda-i-rybalka
 price: 1000
-order: 3
+order: 6
 photos:
   - ./1.jpg

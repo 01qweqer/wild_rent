@@ -1,6 +1,6 @@
-name: "Бинокль"
+name: "Кукан"
 category: voda-i-rybalka
-price: 1500
-order: 13
+price: 500
+order: 11
 photos:
   - ./1.jpg
