@@ -1,0 +1,6 @@
+name: "Кукан"
+category: voda-i-rybalka
+price: 500
+order: 11
+photos:
+  - ./1.jpg

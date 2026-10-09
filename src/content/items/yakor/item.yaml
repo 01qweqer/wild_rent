@@ -1,0 +1,6 @@
+name: "Якорь"
+category: voda-i-rybalka
+price: 1500
+order: 4
+photos:
+  - ./1.jpg

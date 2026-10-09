@@ -1,0 +1,6 @@
+name: "Спиннинг"
+category: voda-i-rybalka
+price: 1000
+order: 6
+photos:
+  - ./1.jpg

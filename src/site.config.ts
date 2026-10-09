@@ -23,7 +23,7 @@ export const SITE = {
   instagram: 'https://www.instagram.com/astana_rent_with_baga_',
   tiktok: 'https://www.tiktok.com/@astana_rent_with_baga_',
 
-  // Round logo in the public/ folder.
+  // Logo in the public/ folder (wide, dark background).
   logo: 'logo.png',
 
   currency: '₸',

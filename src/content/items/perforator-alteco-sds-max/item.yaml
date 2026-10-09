@@ -1,0 +1,8 @@
+name: "Перфоратор бочковой ALTECO SDS-Max"
+category: instrument
+price: 3000
+priceTo: 3500
+order: 3
+photos:
+  - ./1.jpg
+description: "Мощный бочковой перфоратор для сверления больших отверстий в бетоне и кирпиче, а также для демонтажных работ."

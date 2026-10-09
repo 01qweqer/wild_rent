@@ -1,0 +1,7 @@
+name: "Лобзик ALTECO JS 650.1"
+category: instrument
+price: 1500
+order: 12
+photos:
+  - ./1.jpg
+description: "Электролобзик для прямых и фигурных резов в дереве, ДСП, фанере, пластике и тонком металле."

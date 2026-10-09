@@ -1,0 +1,6 @@
+name: "Садок"
+category: voda-i-rybalka
+price: 800
+order: 10
+photos:
+  - ./1.jpg

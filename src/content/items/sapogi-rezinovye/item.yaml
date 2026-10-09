@@ -1,0 +1,6 @@
+name: "Сапоги резиновые"
+category: voda-i-rybalka
+price: 1000
+order: 12
+photos:
+  - ./1.jpg
