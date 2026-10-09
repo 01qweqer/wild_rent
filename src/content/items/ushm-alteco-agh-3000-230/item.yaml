@@ -1,0 +1,9 @@
+name: "Шлифмашина угловая ALTECO AGH 3000-230 S"
+category: instrument
+price: 2500
+order: 7
+photos:
+  - ./1.jpg
+description: "Большая угловая шлифмашина для резки и зачистки металла, камня и бетона."
+specs:
+  "Диаметр диска": "230 мм"

@@ -2,7 +2,7 @@ name: "Шлифмашина угловая ALTECO Heavy Duty AGH 1000-125"
 category: instrument
 price: 1500
 priceFrom: true
-order: 5
+order: 6
 photos:
   - ./1.jpg
 description: "Угловая шлифмашина ALTECO Heavy Duty AGH 1000-125 E предназначена для профессиональной резки, шлифовки и зачистки твердых материалов в условиях интенсивной эксплуатации."

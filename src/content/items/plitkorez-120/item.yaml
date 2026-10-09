@@ -1,0 +1,9 @@
+name: "Плиткорез 120 см"
+category: instrument
+price: 4000
+order: 17
+photos:
+  - ./1.jpg
+description: "Ручной плиткорез для крупноформатной плитки и керамогранита."
+specs:
+  "Длина реза": "120 см"

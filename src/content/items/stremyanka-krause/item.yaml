@@ -1,0 +1,8 @@
+name: "Стремянка KRAUSE 1,5 м"
+category: instrument
+price: 2000
+order: 20
+photos:
+  - ./1.jpg
+specs:
+  "Высота": "1,5 м"
